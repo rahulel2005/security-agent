@@ -1,0 +1,15 @@
+auto_fix_policy:
+  allow:
+    - dependency_upgrade_patch
+    - dependency_upgrade_minor
+    - insecure_eval_usage
+    - weak_hash_usage
+
+  deny:
+    - auth_logic_changes
+    - payment_logic_changes
+
+  limits:
+    max_files_changed: 5
+    max_lines_changed: 300
+    min_confidence: 0.75

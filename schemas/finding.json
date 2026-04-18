@@ -1,0 +1,9 @@
+{
+  "tool": "semgrep",
+  "rule_id": "eval-detected",
+  "severity": "high",
+  "file": "src/utils/parser.js",
+  "line": 48,
+  "snippet": "eval(userInput)",
+  "message": "Use of eval is dangerous"
+}
