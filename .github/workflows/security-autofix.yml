@@ -2,7 +2,8 @@ name: Security Auto Fix
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
+   
   schedule:
     - cron: "0 2 * * *"
 
