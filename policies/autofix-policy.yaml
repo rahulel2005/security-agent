@@ -34,6 +34,6 @@ jobs:
       - name: Run AI Agent
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN_CUSTOM: ${{ secrets.GITHUB_TOKEN_CUSTOM }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN  }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python app/main.py

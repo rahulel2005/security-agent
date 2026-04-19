@@ -14,7 +14,7 @@ def get_repo_info():
 
 
 def get_headers():
-    token = os.getenv("GITHUB_TOKEN_CUSTOM")
+    token = os.getenv("GH_TOKEN")
     if not token:
         raise ValueError("GITHUB_TOKEN_CUSTOM not found")
     return {
