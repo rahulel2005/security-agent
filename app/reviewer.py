@@ -14,4 +14,5 @@ def review_patch(finding, patch):
         ]
     )
 
-    return eval(response.choices[0].message.content)
+ import json
+return json.loads(response.choices[0].message.content)
