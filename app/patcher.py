@@ -1,4 +1,5 @@
 import os
+ import json
 from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -14,5 +15,5 @@ def generate_patch(finding):
         ]
     )
 
-    import json
+   
 return json.loads(response.choices[0].message.content)
