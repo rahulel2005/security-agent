@@ -90,6 +90,11 @@ def run_pipeline():
 
     run_cmd(f"git add {target_file}")
     run_cmd('git commit -m "fix(security): AI-generated remediation"')
+    
+    token = os.getenv("GH_TOKEN")
+    repo = os.getenv("GITHUB_REPOSITORY")
+
+    run_cmd(f"git remote set-url origin https://x-access-token:{token}@github.com/{repo}.git")
     run_cmd(f"git push origin {branch_name}")
 
     pr_title = f"fix(security): remediate {finding.get('check_id', 'vulnerability')}"
