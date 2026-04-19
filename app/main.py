@@ -84,6 +84,10 @@ def run_pipeline():
 
     branch_name = create_branch_name()
     run_cmd(f"git checkout -b {branch_name}")
+
+    run_cmd('git config user.name "security-agent-bot"')
+    run_cmd('git config user.email "security-agent-bot@users.noreply.github.com"')
+
     run_cmd(f"git add {target_file}")
     run_cmd('git commit -m "fix(security): AI-generated remediation"')
     run_cmd(f"git push origin {branch_name}")
