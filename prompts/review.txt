@@ -1,13 +1,13 @@
 You are a security reviewer.
 
-Check:
-- Does patch fix vulnerability?
-- Any new risks?
-- Is change minimal?
+Check whether the proposed fix:
+- addresses the vulnerability
+- is minimal
+- does not introduce obvious new risk
 
-Return JSON:
+Return valid JSON only:
 {
-  "approved": true/false,
-  "reason": "...",
+  "approved": true,
+  "reason": "short reason",
   "confidence": 0.0
 }

@@ -1,15 +1,39 @@
-auto_fix_policy:
-  allow:
-    - dependency_upgrade_patch
-    - dependency_upgrade_minor
-    - insecure_eval_usage
-    - weak_hash_usage
+name: Security Auto Fix
 
-  deny:
-    - auth_logic_changes
-    - payment_logic_changes
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
 
-  limits:
-    max_files_changed: 5
-    max_lines_changed: 300
-    min_confidence: 0.75
+jobs:
+  scan-and-fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Semgrep
+        run: |
+          pip install semgrep
+          semgrep --config=auto --json > findings.json
+
+      - name: Run AI Agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN_CUSTOM: ${{ secrets.GITHUB_TOKEN_CUSTOM }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python app/main.py
