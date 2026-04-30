@@ -10,7 +10,8 @@ from github_ops import create_pull_request
 
 
 def run_cmd(command):
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    command_list = command if isinstance(command, list) else command.split()
+    result = subprocess.run(command_list, shell=False, capture_output=True, text=True)
     print(f"$ {command}")
     if result.stdout:
         print(result.stdout)
