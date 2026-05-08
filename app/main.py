@@ -10,14 +10,16 @@ from github_ops import create_pull_request
 
 
 def run_cmd(command):
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    print(f"$ {command}")
+    if isinstance(command, str):
+        command = command.split()
+    result = subprocess.run(command, shell=False, capture_output=True, text=True)
+    print(f"$ {' '.join(command)}")
     if result.stdout:
         print(result.stdout)
     if result.stderr:
         print(result.stderr)
     if result.returncode != 0:
-        raise RuntimeError(f"Command failed: {command}")
+        raise RuntimeError(f"Command failed: {' '.join(command)}")
     return result
 
 
