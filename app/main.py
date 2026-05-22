@@ -10,14 +10,14 @@ from github_ops import create_pull_request
 
 
 def run_cmd(command):
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-    print(f"$ {command}")
+    result = subprocess.run(command, shell=False, capture_output=True, text=True)
+    print(f"$ {' '.join(command)}")
     if result.stdout:
         print(result.stdout)
     if result.stderr:
         print(result.stderr)
     if result.returncode != 0:
-        raise RuntimeError(f"Command failed: {command}")
+        raise RuntimeError(f"Command failed: {' '.join(command)}")
     return result
 
 
@@ -83,19 +83,19 @@ def run_pipeline():
     write_file(target_file, fixed_code)
 
     branch_name = create_branch_name()
-    run_cmd(f"git checkout -b {branch_name}")
+    run_cmd(["git", "checkout", "-b", branch_name])
 
-    run_cmd('git config user.name "security-agent-bot"')
-    run_cmd('git config user.email "security-agent-bot@users.noreply.github.com"')
+    run_cmd(['git', 'config', 'user.name', "security-agent-bot"])
+    run_cmd(['git', 'config', 'user.email', "security-agent-bot@users.noreply.github.com"])
 
-    run_cmd(f"git add {target_file}")
-    run_cmd('git commit -m "fix(security): AI-generated remediation"')
+    run_cmd(["git", "add", target_file])
+    run_cmd(['git', 'commit', '-m', "fix(security): AI-generated remediation"])
     
     token = os.getenv("GH_TOKEN")
     repo = os.getenv("GITHUB_REPOSITORY")
 
-    run_cmd(f"git remote set-url origin https://x-access-token:{token}@github.com/{repo}.git")
-    run_cmd(f"git push origin {branch_name}")
+    run_cmd(["git", "remote", "set-url", "origin", f"https://x-access-token:{token}@github.com/{repo}.git"])
+    run_cmd(["git", "push", "origin", branch_name])
 
     pr_title = f"fix(security): remediate {finding.get('check_id', 'vulnerability')}"
     pr_body = (
